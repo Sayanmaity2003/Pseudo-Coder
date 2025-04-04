@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+*{
+    font-family: Outfit;
+}
+
+.active hr{
+    @apply block
+}
+
+::-webkit-scrollbar{
+    @apply hidden
+}
+
+@media (max-width:740px) {
+    .active p {
+        @apply text-white bg-primary
+    }
+}
+
+@keyframes bounce-spin {
+    0% { transform: translateY(0) rotate(0deg); }
+    30% { transform: translateY(-10px) rotate(15deg); }
+    50% { transform: translateY(5px) rotate(-15deg); }
+    70% { transform: translateY(-5px) rotate(10deg); }
+    100% { transform: translateY(0) rotate(0deg); }
+  }
+  
+  .hover\:animate-bounce-spin:hover {
+    animation: bounce-spin 0.6s ease-in-out;
+  }
+
+
+
+  
+  
+  
+  
