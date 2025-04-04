@@ -4,7 +4,7 @@ import Navbar from "./components/Navbar";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Home from "./pages/Home";
-
+import Footer from "./components/Footer";
 
 const App = () => {
   return (
@@ -14,11 +14,10 @@ const App = () => {
       <Navbar />
 
       <Routes>
-
         <Route path="/" element={<Home />} />
-
       </Routes>
-      {/* <Footer /> */}
+
+      <Footer />
     </div>
   );
 };
