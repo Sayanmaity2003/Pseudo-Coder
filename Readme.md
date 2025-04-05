@@ -10,7 +10,9 @@ Doctors can request to list their clinics via the admin dashboard. After verific
 
 ## 🔗 Live Demo
 
-🚧 Coming Soon...
+Frontend Panel: https://pseudo-coder-c1zi.vercel.app
+
+Admin or Doctor Panel: https://pseudo-coder-admin.vercel.app
 
 ---
 
@@ -19,7 +21,7 @@ Doctors can request to list their clinics via the admin dashboard. After verific
 This project is organized into three major components:
 
 ### 1. 🌐 Frontend
-- **Tech Stack:** React + Vite, Tailwind CSS
+- **Tech Stack:** React + Vite, Tailwind CSS, JS
 - **Key Features:**
   - Browse medical specialties
   - View detailed clinic and doctor profiles
@@ -43,11 +45,11 @@ This project is organized into three major components:
   - JWT for authentication and authorization
   - Cloudinary for media upload
   - Nodemailer for communication
-  - Razorpay SDK for payments
+  - Razorpay for payments
   - Admin approval system for clinic listings
 
-### 3. 🧑‍💼 Admin Panel
-- **Tech Stack:** React + Vite, Tailwind CSS
+### 3. 🧑‍💼 Admin Panel & Doctor Panel
+- **Tech Stack:** React + Vite, Tailwind CSS, JS
 - **Functionalities:**
   - View pending doctor/clinic listing requests
   - Verify and add approved clinics to the live database
@@ -62,7 +64,7 @@ This project is organized into three major components:
 | Frontend     | React, Vite, Tailwind CSS                                                    |
 | Admin Panel  | React, Vite, Tailwind CSS                                                    |
 | Backend      | Node.js, Express.js, MongoDB Atlas, Mongoose                                 |
-| APIs & Tools | Mapbox, Gemini (Google AI), Translation API, Razorpay, Cloudinary, Nodemailer, JWT, CORS |
+| APIs & Tools | Mapbox, Gemini (Google AI), Translation API, Razorpay, Cloudinary, Nodemailer, JWT, CORS, Axios, Toastify |
 
 ---
 
