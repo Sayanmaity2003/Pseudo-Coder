@@ -196,14 +196,7 @@ const MyProfile = () => {
                 Edit
               </button>
 
-              <label className="border border-primary px-8 py-2 rounded-full hover:bg-primary hover:text-white transition-all cursor-pointer">
-                Upload
-                <input
-                  type="file"
-                  className="hidden"
-                  onChange={(e) => setImage(e.target.files[0])}
-                />
-              </label>
+            
             </>
           )}
         </div>
