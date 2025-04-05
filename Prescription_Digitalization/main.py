@@ -10,11 +10,7 @@ from markdownify import markdownify as md
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import pypandoc
 
-
-
-#################################################################
 ##################### ENVIRONMENT VARIABLES #####################
-#################################################################
 
 # Load environment variables from a .env file
 load_dotenv()
@@ -22,11 +18,7 @@ load_dotenv()
 # Maximum number of workers for the ThreadPoolExecutor
 max_workers = 10
 
-
-
-#################################################################
 ########################### FUNCTIONS ###########################
-#################################################################
 
 # Configure the genai library with an API key obtained from the environment variables
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
@@ -316,11 +308,7 @@ def process_file():
     if st.session_state.format_selected == "LaTeX":
         st.session_state.output = md_to_latex(st.session_state.output)
 
-
-
-#################################################################
 ########################### INTERFACE ###########################
-#################################################################
 
 # Set page config first
 st.set_page_config(page_title="Prescription Digitalization", layout="wide", initial_sidebar_state="expanded")
