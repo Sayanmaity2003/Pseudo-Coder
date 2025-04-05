@@ -174,7 +174,7 @@ const appointmentCancel = async (req, res) => {
         html: `<p>Hello ${userName},</p>
                <p>Your appointment with <strong>Dr. ${doctorName}</strong> has been <strong>cancelled</strong> by the admin.</p>
                <p>If this was a mistake, please contact support or rebook from your portal.</p>
-               <p>— Prescripto Team</p>`,
+               <p>— MediVerse Team</p>`,
       });
     }
 

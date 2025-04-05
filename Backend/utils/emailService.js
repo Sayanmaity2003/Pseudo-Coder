@@ -12,8 +12,8 @@ const sendWelcomeEmail = async (email, name) => {
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: email,
-    subject: "Welcome to Tomato!",
-    text: `Hi ${name},\n\nWelcome to Tomato!\n\nWe're thrilled to have you join our community of food lovers. With just a few clicks, you can explore a wide variety of delicious meals.\n\nTo get started, simply log in to your account, browse our menu, and place your first order! If you have any questions or need assistance, our support team is always here to help.\n\nThank you for choosing us!\n\nBest regards,\nThe Tomato Team`,
+    subject: "Welcome to MediVerse!",
+    text: `Hi ${name},\n\nWelcome to MediVerse!\n\nWe're delighted to have you on board. MediVerse is your one-stop destination for booking hassle-free doctor appointments from the comfort of your home.\n\nTo get started, log in to your account, explore our list of trusted doctors across various specialties, and schedule your first consultation in just a few clicks.\n\nIf you ever need help or have questions, our support team is always ready to assist you.\n\nThank you for choosing MediVerse – your health, our priority.\n\nBest regards,\nThe MediVerse Team`,
   };
 
   try {
@@ -46,7 +46,7 @@ const sendPaymentSuccessEmail = async (
       </ul>
       <p>We look forward to serving you. Thank you for choosing us!</p>
       <br />
-      <p>Best Regards,<br/>The FOREVER Healthcare Team</p>
+      <p>Best Regards,<br/>The MediVerse Team</p>
     `,
   };
 
@@ -80,7 +80,7 @@ const sendCancellationEmail = async (
         </ul>
         <p>If this was a mistake or you wish to rebook, you can visit your dashboard to schedule a new appointment.</p>
         <br />
-        <p>Take care,<br/>The FOREVER Healthcare Team</p>
+        <p>Take care,<br/>The MediVerse Team</p>
       `,
   };
 

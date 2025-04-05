@@ -100,7 +100,7 @@ const appointmentComplete = async (req, res) => {
       subject: "Appointment Completed",
       html: `<p>Hello ${userName},</p>
              <p>Your appointment with <strong>Dr. ${doctorName}</strong> has been marked as <strong>completed</strong>.</p>
-             <p>Thank you for using Prescripto.</p>`,
+             <p>Thank you for using MediVerse.</p>`,
     });
 
     res.json({ success: true, message: "Appointment Completed" });
