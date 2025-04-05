@@ -5,6 +5,16 @@ import doctorModel from "../models/doctorModel.js";
 import jwt from "jsonwebtoken";
 import appointmentModel from "../models/appointmentModel.js";
 import userModel from "../models/userModel.js";
+import nodemailer from "nodemailer";
+
+// Nodemailer transporter
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.ADMIN_EMAIL,
+    pass: process.env.EMAIL_PASS,
+  },
+});
 
 // API for adding doctor
 const addDoctor = async (req, res) => {
@@ -22,7 +32,6 @@ const addDoctor = async (req, res) => {
     } = req.body;
     const imageFile = req.file;
 
-    // checking for all data to add doctor
     if (
       !name ||
       !email ||
@@ -37,7 +46,6 @@ const addDoctor = async (req, res) => {
       return res.json({ success: false, message: "Missing Details" });
     }
 
-    // validating email foramt
     if (!validator.isEmail(email)) {
       return res.json({
         success: false,
@@ -45,7 +53,6 @@ const addDoctor = async (req, res) => {
       });
     }
 
-    // validating strong password
     if (password.length < 8) {
       return res.json({
         success: false,
@@ -53,11 +60,9 @@ const addDoctor = async (req, res) => {
       });
     }
 
-    // hashing doctor password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    //upload image to cloudinary
     const imageUpload = await cloudinary.uploader.upload(imageFile.path, {
       resource_type: "image",
     });
@@ -118,7 +123,7 @@ const allDoctors = async (req, res) => {
   }
 };
 
-//API to get all appointment list
+// API to get all appointment list
 const appointmentsAdmin = async (req, res) => {
   try {
     const appointments = await appointmentModel.find({});
@@ -129,29 +134,49 @@ const appointmentsAdmin = async (req, res) => {
   }
 };
 
-//API for appointment cancellation
+// ✅ Appointment cancellation with email
 const appointmentCancel = async (req, res) => {
   try {
     const { appointmentId } = req.body;
 
     const appointmentData = await appointmentModel.findById(appointmentId);
+    if (!appointmentData) {
+      return res.json({ success: false, message: "Appointment not found" });
+    }
 
     await appointmentModel.findByIdAndUpdate(appointmentId, {
       cancelled: true,
     });
 
-    //releasing doctor slot
+    // Release doctor slot
     const { docId, slotDate, slotTime } = appointmentData;
-
     const doctorData = await doctorModel.findById(docId);
-
     let slots_booked = doctorData.slots_booked;
 
-    slots_booked[slotDate] = slots_booked[slotDate].filter(
-      (e) => e !== slotTime
-    );
+    if (slots_booked[slotDate]) {
+      slots_booked[slotDate] = slots_booked[slotDate].filter(
+        (e) => e !== slotTime
+      );
+    }
 
     await doctorModel.findByIdAndUpdate(docId, { slots_booked });
+
+    // ✅ Send email to user
+    const userEmail = appointmentData.userData?.email;
+    const userName = appointmentData.userData?.name;
+    const doctorName = appointmentData.docData?.name;
+
+    if (userEmail) {
+      await transporter.sendMail({
+        from: `"Prescripto Admin" <${process.env.ADMIN_EMAIL}>`,
+        to: userEmail,
+        subject: "Appointment Cancelled",
+        html: `<p>Hello ${userName},</p>
+               <p>Your appointment with <strong>Dr. ${doctorName}</strong> has been <strong>cancelled</strong> by the admin.</p>
+               <p>If this was a mistake, please contact support or rebook from your portal.</p>
+               <p>— Prescripto Team</p>`,
+      });
+    }
 
     res.json({ success: true, message: "Appointment Cancelled" });
   } catch (error) {
@@ -160,7 +185,7 @@ const appointmentCancel = async (req, res) => {
   }
 };
 
-// API to get dashboard data for admin panel
+// Admin dashboard data
 const adminDashboard = async (req, res) => {
   try {
     const doctors = await doctorModel.find({});

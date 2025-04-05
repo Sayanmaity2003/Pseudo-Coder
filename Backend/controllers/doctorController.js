@@ -2,6 +2,16 @@ import doctorModel from "../models/doctorModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import appointmentModel from "../models/appointmentModel.js";
+import nodemailer from "nodemailer";
+
+// Create transporter once
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.ADMIN_EMAIL,
+    pass: process.env.EMAIL_PASS,
+  },
+});
 
 const changeAvailablity = async (req, res) => {
   try {
@@ -28,7 +38,6 @@ const doctorList = async (req, res) => {
   }
 };
 
-// API for doctor login
 const loginDoctor = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -51,12 +60,10 @@ const loginDoctor = async (req, res) => {
   }
 };
 
-// API to get doctor appointments for doctor panel
 const appointmentDoctor = async (req, res) => {
   try {
     const { docId } = req.body;
     const appointments = await appointmentModel.find({ docId });
-
     res.json({ success: true, appointments });
   } catch (error) {
     console.log(error);
@@ -64,49 +71,84 @@ const appointmentDoctor = async (req, res) => {
   }
 };
 
-// API to mark appointment completed for doctor panel
+// ✅ Appointment Completed
 const appointmentComplete = async (req, res) => {
   try {
     const { docId, appointmentId } = req.body;
 
     const appointmentData = await appointmentModel.findById(appointmentId);
 
-    if (appointmentData && appointmentData.docId === docId) {
-      await appointmentModel.findByIdAndUpdate(appointmentId, {
-        isCompleted: true,
-      });
-      return res.json({ success: true, message: "Appointment Completed" });
-    } else {
+    if (!appointmentData || appointmentData.docId !== docId) {
       return res.json({ success: false, message: "Mark Failed" });
     }
+
+    await appointmentModel.findByIdAndUpdate(appointmentId, {
+      isCompleted: true,
+    });
+
+    const userEmail = appointmentData.userData?.email;
+    const userName = appointmentData.userData?.name;
+    const doctorName = appointmentData.docData?.name;
+
+    if (!userEmail) {
+      return res.json({ success: false, message: "User email not found" });
+    }
+
+    await transporter.sendMail({
+      from: `"Prescripto Admin" <${process.env.ADMIN_EMAIL}>`,
+      to: userEmail,
+      subject: "Appointment Completed",
+      html: `<p>Hello ${userName},</p>
+             <p>Your appointment with <strong>Dr. ${doctorName}</strong> has been marked as <strong>completed</strong>.</p>
+             <p>Thank you for using Prescripto.</p>`,
+    });
+
+    res.json({ success: true, message: "Appointment Completed" });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });
   }
 };
 
-// API to cancel appointment completed for doctor panel
+// ✅ Appointment Cancelled
 const appointmentCancel = async (req, res) => {
   try {
     const { docId, appointmentId } = req.body;
 
     const appointmentData = await appointmentModel.findById(appointmentId);
 
-    if (appointmentData && appointmentData.docId === docId) {
-      await appointmentModel.findByIdAndUpdate(appointmentId, {
-        cancelled: true,
-      });
-      return res.json({ success: true, message: "Appointment Cancelled" });
-    } else {
+    if (!appointmentData || appointmentData.docId !== docId) {
       return res.json({ success: false, message: "Cancellation Failed" });
     }
+
+    await appointmentModel.findByIdAndUpdate(appointmentId, {
+      cancelled: true,
+    });
+
+    const userEmail = appointmentData.userData?.email;
+    const userName = appointmentData.userData?.name;
+    const doctorName = appointmentData.docData?.name;
+
+    if (!userEmail) {
+      return res.json({ success: false, message: "User email not found" });
+    }
+
+    await transporter.sendMail({
+      from: `"Prescripto Admin" <${process.env.ADMIN_EMAIL}>`,
+      to: userEmail,
+      subject: "Appointment Cancelled",
+      html: `<p>Hello ${userName},</p>
+             <p>Your appointment with <strong>Dr. ${doctorName}</strong> has been <strong>cancelled</strong>.</p>
+             <p>If this was unintentional, feel free to rebook.</p>`,
+    });
+
+    res.json({ success: true, message: "Appointment Cancelled" });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });
   }
 };
 
-// API to get dashboard data for doctor panel
 const doctorDashboard = async (req, res) => {
   try {
     const { docId } = req.body;
@@ -143,7 +185,6 @@ const doctorDashboard = async (req, res) => {
   }
 };
 
-// API to get doctor profile for Doctor Panel
 const doctorProfile = async (req, res) => {
   try {
     const { docId } = req.body;
@@ -156,7 +197,6 @@ const doctorProfile = async (req, res) => {
   }
 };
 
-// API to update doctor data for doctor panel
 const updateDoctorProfile = async (req, res) => {
   try {
     const { docId, fees, address, available } = req.body;

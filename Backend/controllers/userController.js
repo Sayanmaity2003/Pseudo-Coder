@@ -6,6 +6,11 @@ import { v2 as cloudinary } from "cloudinary";
 import doctorModel from "../models/doctorModel.js";
 import appointmentModel from "../models/appointmentModel.js";
 import razorpay from "razorpay";
+import {
+  sendWelcomeEmail,
+  sendPaymentSuccessEmail,
+  sendCancellationEmail,
+} from "../utils/emailService.js"; // Import the email sending function
 
 //API to register user
 const registerUser = async (req, res) => {
@@ -41,6 +46,9 @@ const registerUser = async (req, res) => {
 
     const newUser = new userModel(userData);
     const user = await newUser.save();
+
+    // Send welcome email
+    await sendWelcomeEmail(email, name); // Send email after user registration
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
     res.json({ success: true, token });
@@ -200,17 +208,24 @@ const cancelAppointment = async (req, res) => {
     });
 
     //releasing doctor slot
-    const { docId, slotDate, slotTime } = appointmentData;
+    const { docId, slotDate, slotTime, userData, docData } = appointmentData;
 
     const doctorData = await doctorModel.findById(docId);
 
     let slots_booked = doctorData.slots_booked;
-
     slots_booked[slotDate] = slots_booked[slotDate].filter(
       (e) => e !== slotTime
     );
-
     await doctorModel.findByIdAndUpdate(docId, { slots_booked });
+
+    // ✅ Send cancellation email to user
+    await sendCancellationEmail(
+      userData.email,
+      userData.name,
+      docData.name,
+      slotDate,
+      slotTime
+    );
 
     res.json({ success: true, message: "Appointment Cancelled" });
   } catch (error) {
@@ -253,16 +268,28 @@ const paymentRazorpay = async (req, res) => {
   }
 };
 
-// API to verify payment of razorpay
 const verifyRazorpay = async (req, res) => {
   try {
     const { razorpay_order_id } = req.body;
     const orderInfo = await razorpayInstance.orders.fetch(razorpay_order_id);
 
     if (orderInfo.status === "paid") {
-      await appointmentModel.findByIdAndUpdate(orderInfo.receipt, {
-        payment: true,
-      });
+      const updatedAppointment = await appointmentModel.findByIdAndUpdate(
+        orderInfo.receipt,
+        { payment: true },
+        { new: true }
+      );
+
+      // ✅ Send payment confirmation email
+      const { userData, amount, slotDate, slotTime } = updatedAppointment;
+      await sendPaymentSuccessEmail(
+        userData.email,
+        userData.name,
+        updatedAppointment.docData.name,
+        slotDate,
+        slotTime
+      );
+
       res.json({ success: true, message: "Payment Successful" });
     } else {
       res.json({ success: false, message: "Payment Failed" });
