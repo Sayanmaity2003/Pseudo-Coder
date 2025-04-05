@@ -97,7 +97,7 @@ EMAIL_PASS=your_email_app_password
 
 ⚙️ Installation Guide
 1. 📦 Clone the Repository
-git clone https://github.com/your-username/mediverse.git
+git clone https://github.com/Sayanmaity2003/Pseudo-Coder.git
 cd mediverse
 
 2. 🔧 Setup Backend
