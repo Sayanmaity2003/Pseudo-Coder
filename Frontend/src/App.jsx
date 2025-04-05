@@ -11,6 +11,9 @@ import About from "./pages/About";
 import DietPlanner from "./pages/DietPlanner";
 import Login from "./pages/Login";
 import MedicineSearch from "./pages/MedicineSearch";
+import MyProfile from "./pages/MyProfile";
+import MyAppointments from "./pages/MyAppointments";
+import Appointment from "./pages/Appointment";
 
 const App = () => {
   return (
@@ -28,6 +31,9 @@ const App = () => {
         <Route path="/diet-planner" element={<DietPlanner />} />
         <Route path="/login" element={<Login />} />
         <Route path="/medicine-search" element={<MedicineSearch />} />
+        <Route path="/my-profile" element={<MyProfile />} />
+        <Route path="/my-appointments" element={<MyAppointments />} />
+        <Route path="/appointment/:docId" element={<Appointment />} />
       </Routes>
 
       <Footer />
