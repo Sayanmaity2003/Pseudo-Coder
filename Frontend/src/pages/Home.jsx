@@ -5,6 +5,7 @@ import PrescriptionSection from "../components/PrescriptionSection";
 import TopDoctors from "../components/TopDoctors"
 import Banner from "../components/Banner";
 import HoverImage from "../components/HoverImage";
+import Map from "../components/Map";
 const Home = () => {
     return (
         <div>
@@ -14,6 +15,7 @@ const Home = () => {
             <TopDoctors />
             <Banner />
             <HoverImage/>
+            <Map />
         </div>
     );
 };
