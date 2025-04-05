@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useContext } from "react";
 import { AppContext } from "../context/AppContext";
 
 const DoctorVerification = () => {
@@ -18,6 +17,26 @@ const DoctorVerification = () => {
   const [degree, setDegree] = useState("");
   const [address1, setAddress1] = useState("");
   const [address2, setAddress2] = useState("");
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
+
+  const fetchLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setLatitude(position.coords.latitude);
+          setLongitude(position.coords.longitude);
+          toast.success("Location fetched successfully!");
+        },
+        (error) => {
+          toast.error("Failed to fetch location.");
+          console.error(error);
+        }
+      );
+    } else {
+      toast.error("Geolocation is not supported by this browser.");
+    }
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -37,12 +56,13 @@ const DoctorVerification = () => {
     formData.append("degree", degree);
     formData.append("address1", address1);
     formData.append("address2", address2);
+    formData.append("latitude", latitude);
+    formData.append("longitude", longitude);
     formData.append("document", docFile);
 
     try {
       const response = await axios.post(
         backendUrl + "/api/verification/send-verification-email",
-        // "http://localhost:4000/api/verification/send-verification-email",
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -61,6 +81,8 @@ const DoctorVerification = () => {
         setDegree("");
         setAddress1("");
         setAddress2("");
+        setLatitude("");
+        setLongitude("");
         setDocFile(null);
       } else {
         toast.error("Failed to send verification email.");
@@ -179,6 +201,32 @@ const DoctorVerification = () => {
             rows={5}
             required
           />
+
+          {/* Location Section */}
+          <div className="flex flex-col gap-2">
+            <label className="text-gray-500">Doctor Location:</label>
+            <button
+              type="button"
+              onClick={fetchLocation}
+              className="bg-blue-500 text-white px-4 py-2 rounded w-fit"
+            >
+              Get Current Location
+            </button>
+            <input
+              type="text"
+              placeholder="Latitude"
+              value={latitude}
+              readOnly
+              className="border rounded px-3 py-2"
+            />
+            <input
+              type="text"
+              placeholder="Longitude"
+              value={longitude}
+              readOnly
+              className="border rounded px-3 py-2"
+            />
+          </div>
 
           <button
             type="submit"

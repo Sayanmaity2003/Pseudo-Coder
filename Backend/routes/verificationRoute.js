@@ -2,8 +2,7 @@ import express from "express";
 import nodemailer from "nodemailer";
 import multer from "multer";
 import dotenv from "dotenv";
-import DoctorRequest from "../models/DoctorRequest.js"; 
-
+import DoctorRequest from "../models/DoctorRequest.js";
 
 dotenv.config();
 
@@ -13,7 +12,21 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 verificationRouter.post("/send-verification-email", upload.single("document"), async (req, res) => {
-  const { name, email, password, experience, fees, about, speciality, degree, address1, address2 } = req.body;
+  const {
+    name,
+    email,
+    password,
+    experience,
+    fees,
+    about,
+    speciality,
+    degree,
+    address1,
+    address2,
+    latitude,
+    longitude,
+  } = req.body;
+  
   const document = req.file;
 
   if (!document) {
@@ -23,6 +36,7 @@ verificationRouter.post("/send-verification-email", upload.single("document"), a
   try {
     const newRequest = new DoctorRequest({ name, email, speciality });
     await newRequest.save();
+
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -50,6 +64,8 @@ verificationRouter.post("/send-verification-email", upload.single("document"), a
             <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>Fees:</strong></td><td>Rs${fees}</td></tr>
             <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>Address 1:</strong></td><td>${address1}</td></tr>
             <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>Address 2:</strong></td><td>${address2}</td></tr>
+            <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>Latitude:</strong></td><td>${latitude}</td></tr>
+            <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>Longitude:</strong></td><td>${longitude}</td></tr>
             <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;"><strong>About:</strong></td><td>${about}</td></tr>
           </table>
     
@@ -65,7 +81,6 @@ verificationRouter.post("/send-verification-email", upload.single("document"), a
         },
       ],
     };
-    
 
     await transporter.sendMail(mailOptions);
     res.status(200).json({ success: true, message: "Verification email sent successfully." });
