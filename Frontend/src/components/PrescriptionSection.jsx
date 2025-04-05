@@ -59,7 +59,7 @@ const PrescriptionSection = () => {
                 </p>
                 <button
                     onClick={() =>
-                        (window.location.href = "https://code-hire-x-digiscribe.streamlit.app/")
+                        (window.location.href = "https://pseudocoder-prescription-digitalization.streamlit.app/")
                     }
                     className="mt-6 bg-[#0077B6] text-white font-semibold px-8 py-3 rounded-full shadow-md hover:bg-[#E63946] hover:scale-105 transition-all duration-300"
                 >
