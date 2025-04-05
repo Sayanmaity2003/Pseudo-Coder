@@ -44,7 +44,7 @@ const Navbar = () => {
         </NavLink>
 
         <a
-          href=""
+          href="http://localhost:5174"
           className="bg-blue-100 border border-blue-500 px-5 text-xs py-1 rounded-full m-auto"
         >
           <p className="mt-1">ADMIN PANEL</p>
@@ -119,7 +119,7 @@ const Navbar = () => {
               <p className="px-4 py-2 rounded inline-block">CONTACT</p>
             </NavLink>
             <a
-              href=""
+              href="http://localhost:5174"
               className="px-4 py-2 rounded inline-block"
             >
               ADMIN PANEL
