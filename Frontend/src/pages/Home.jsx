@@ -4,6 +4,7 @@ import SpecialityMenu from "../components/SpecialityMenu";
 import PrescriptionSection from "../components/PrescriptionSection";
 import TopDoctors from "../components/TopDoctors"
 import Banner from "../components/Banner";
+import HoverImage from "../components/HoverImage";
 const Home = () => {
     return (
         <div>
@@ -12,6 +13,7 @@ const Home = () => {
             <PrescriptionSection />
             <TopDoctors />
             <Banner />
+            <HoverImage/>
         </div>
     );
 };
