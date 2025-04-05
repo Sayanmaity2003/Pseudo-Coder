@@ -195,8 +195,6 @@ const MyProfile = () => {
               >
                 Edit
               </button>
-
-            
             </>
           )}
         </div>
