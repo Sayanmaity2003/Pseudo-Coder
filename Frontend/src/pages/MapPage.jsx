@@ -13,7 +13,7 @@ export default function MapPage() {
       container: "map",
       style: "mapbox://styles/mapbox/satellite-streets-v12",
       center: [80.0275, 23.1776],
-      zoom: 10,
+      zoom: 15,
     });
 
     const marker = new mapboxgl.Marker({ color: "#008000" });
