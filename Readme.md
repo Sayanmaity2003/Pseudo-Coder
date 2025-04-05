@@ -69,7 +69,6 @@ This project is organized into three major components:
 ## 📁 Environment Variables Setup
 
 ### 🔐 Frontend (`.env`)
-```env
 VITE_BACKEND_URL=http://localhost:4000
 VITE_RAZORPAY_KEY_ID=your_razorpay_key_id
 VITE_CLOUDINARY_UPLOAD_PRESET=your_upload_preset
@@ -121,22 +120,23 @@ npm run dev
 
 
 ✨ Key Features
-✅ Explore a wide range of doctors by specialty
-🗺 Smart Map with:
+- ✅ Explore a wide range of doctors by specialty
+- 🗺 Smart Map with:
 
-Location search
+- Location search
 
-Auto-detect current location
+- Auto-detect current location
 
-Radius-based nearby clinic/store filtering
-📤 Doctors can submit listing requests
-🛡️ JWT-based secure authentication
-📧 Email alerts via Nodemailer
-💳 Razorpay payment gateway
-🤖 Gemini-powered chatbot for medical assistance
-🧠 AI disease predictor (multilingual)
-✍️ Prescription digitization using deep learning
-📈 Health tracking assistant
+- Radius-based nearby clinic/store filtering
+- 📤 Doctors can submit listing requests
+- 🛡️ JWT-based secure authentication
+- 📧 Email alerts via Nodemailer
+- 💳 Razorpay payment gateway
+- 🤖 Gemini-powered chatbot for medical assistance
+- 🧠 AI disease predictor (multilingual)
+- ✍️ Prescription digitization using deep learning
+- 📈 Health tracking assistant
+- 🌍 Map implement
 
 🤝 Contributing
 Contributions are more than welcome!
@@ -147,11 +147,8 @@ Feel free to fork the repository, raise issues, and submit PRs to improve this p
 Crafted with care by:
 
 Sayan Maity
-
 Soumyadip Karan
-
 Soumyarup Das
-
 Soumyajit Manna
 
 Thanks for exploring MediVerse! Let’s revolutionize digital healthcare together. 🩺💡
