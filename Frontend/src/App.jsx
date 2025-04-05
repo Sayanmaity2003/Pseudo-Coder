@@ -14,6 +14,7 @@ import MedicineSearch from "./pages/MedicineSearch";
 import MyProfile from "./pages/MyProfile";
 import MyAppointments from "./pages/MyAppointments";
 import Appointment from "./pages/Appointment";
+import DoctorVerification from "./pages/DoctorVerification";
 import MapPage from "./pages/MapPage";
 
 const App = () => {
@@ -35,7 +36,8 @@ const App = () => {
         <Route path="/my-profile" element={<MyProfile />} />
         <Route path="/my-appointments" element={<MyAppointments />} />
         <Route path="/appointment/:docId" element={<Appointment />} />
-        <Route path="/map" element={<MapPage/>} />
+        <Route path="/doctor-verification" element={<DoctorVerification />} />
+        <Route path="/map" element={<MapPage />} />
       </Routes>
 
       <Footer />
