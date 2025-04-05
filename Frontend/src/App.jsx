@@ -9,6 +9,7 @@ import Contact from "./pages/Contact";
 import Doctors from "./pages/Doctors";
 import About from "./pages/About";
 import DietPlanner from "./pages/DietPlanner";
+import Login from "./pages/Login";
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
         <Route path="/doctors/:speciality" element={<Doctors />} />
         <Route path="/about" element={<About />} />
         <Route path="/diet-planner" element={<DietPlanner />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
 
       <Footer />
