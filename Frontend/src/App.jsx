@@ -10,6 +10,7 @@ import Doctors from "./pages/Doctors";
 import About from "./pages/About";
 import DietPlanner from "./pages/DietPlanner";
 import Login from "./pages/Login";
+import MedicineSearch from "./pages/MedicineSearch";
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
         <Route path="/about" element={<About />} />
         <Route path="/diet-planner" element={<DietPlanner />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/medicine-search" element={<MedicineSearch />} />
       </Routes>
 
       <Footer />
